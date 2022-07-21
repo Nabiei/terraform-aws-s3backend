@@ -31,10 +31,11 @@ resource "aws_kms_key" "kms_key" {
     tags    = {ResourceGroup = local.namespace}
 }
 
+
 resource "aws_s3_bucket" "s3_bucket" {
     bucket          = "${local.namespace}-state-bucket"
     force_destroy   = var.force_destroy_state
-    versioning {enabled=true}
+    #versioning {enabled=true} # deprecated
     server_side_encryption_configuration {
         rule {
             apply_server_side_encryption_by_default {
@@ -46,6 +47,13 @@ resource "aws_s3_bucket" "s3_bucket" {
     tags = {
         ResourceGroup = local.namespace
     }
+}
+
+resource "aws_s3_bucket_versioning" "versioning" {
+  bucket = "${local.namespace}-state-bucket"
+  versioning_configuration {
+    status = "Enabled"
+  }
 }
 
 resource "aws_dynamodb_table" "dynamodb_table" {
