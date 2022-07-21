@@ -11,7 +11,7 @@ locals {
     namespace = substr(join("-", [var.namespace, random_string.rand_str.result]), 0, 24)
 }
 
-resource "aws_resourcegroups_group" "resource_group" {
+resource "aws_resourcegroups_group" "resource_group" { # group resources by tags with "key":"key_name", "value":"your_value" 
     name        = "$[local.namespace]-group"
     resource_query {
         query = <<-JSON
@@ -39,7 +39,7 @@ resource "aws_s3_bucket" "s3_bucket" {
         rule {
             apply_server_side_encryption_by_default {
                 sse_algorithm       = "aws:kms"
-                kms_master_key_id   = aws.kms_key.kms_key.arn
+                kms_master_key_id   = aws_kms_key.kms_key.arn
             }
         }
     }
