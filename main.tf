@@ -34,7 +34,7 @@ resource "aws_kms_key" "kms_key" {
 resource "aws_s3_bucket" "s3_bucket" {
     bucket          = "${local.namespace}-state-bucket"
     force_destroy   = var.force_destroy_state
-    versioning {enable=true}
+    versioning {enabled=true}
     server_side_encryption_configuration {
         rule {
             apply_server_side_encryption_by_default {
