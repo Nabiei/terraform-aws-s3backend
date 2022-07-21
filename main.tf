@@ -12,7 +12,7 @@ locals {
 }
 
 resource "aws_resourcegroups_group" "resource_group" { # group resources by tags with "key":"key_name", "value":"your_value" 
-    name        = "$[local.namespace]-group"
+    name        = "${local.namespace}-group"
     resource_query {
         query = <<-JSON
         {
